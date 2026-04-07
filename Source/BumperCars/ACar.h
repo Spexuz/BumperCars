@@ -20,12 +20,22 @@ public:
 	AACar();
 	// Read Input Storage and Apply Force to Car. Called by ACarController.
 	void SetInput(float fYAxis, float fXAxis);
+	void SetHandbreak(bool bNewHandbrakeState);
+	void SetBump(bool bNewBumpState);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Car Physics")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Car Physics")
 	UBoxComponent* m_pPhysicsBody;
+	UPROPERTY(BlueprintReadOnly, Category="Input")
+	float m_fInput_YAxis = 0.0f;
+	UPROPERTY(BlueprintReadOnly, Category="Input")
+	float m_fInput_XAxis = 0.0f;
+	UPROPERTY(BlueprintReadOnly, Category="Input")
+	bool m_bIsHandbreaking = false;
+	UPROPERTY(BlueprintReadOnly, Category="Input")
+    bool m_bIsBumping = false;
 
 public:	
 	// Called every frame
@@ -40,14 +50,6 @@ private:
 	void PedalInput();
 	void WheelInput();
 	void SimulateSuspension();
-
-	//Input Storage
-	float m_fInput_YAxis;
-	float m_fInput_XAxis;
-
-	//ENGINE VALUES TODO: Torque Curve
-	UPROPERTY(EditAnywhere, Category = "Engine")
-	float m_fEngineForce = 120000.0f;
 
 	//COMPONENTS
 	UPROPERTY(EditAnywhere, Category = "Camera")

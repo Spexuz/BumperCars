@@ -48,17 +48,27 @@ void AACar::BeginPlay()
 void AACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			1,
+			0.f,
+			FColor::Green,
+			FString::Printf(
+				TEXT("Steering: %.2f | Throttle: %.2f | Handbrake: %s | Bump: %s"),
+				m_fInput_XAxis,
+				m_fInput_YAxis,
+				m_bIsHandbreaking ? TEXT("True") : TEXT("False"),
+				m_bIsBumping ? TEXT("True") : TEXT("False")
+			)
+		);
+	}
 	
 }
 
 void AACar::AsyncPhysicsTickActor(float DeltaTime, float SimTime)
 {
 	Super::AsyncPhysicsTickActor(DeltaTime, SimTime);
-
-	//SimulateSuspension(); 
-	//WheelInput();
-	//PedalInput();
 }
 
 
@@ -75,10 +85,7 @@ void AACar::WheelInput()
  */
 void AACar::PedalInput()
 {
-	FVector vForwardDirection = GetActorForwardVector();
-	FVector vForce = vForwardDirection * m_fInput_YAxis * m_fEngineForce;
-
-	m_pPhysicsBody->AddForce(vForce);
+	
 }
 
 void AACar::SimulateSuspension()
@@ -97,6 +104,17 @@ void AACar::SetInput(float fYAxis, float fXAxis)
 {
 	m_fInput_YAxis = fYAxis;
 	m_fInput_XAxis = fXAxis;
+}
+
+void AACar::SetHandbreak(bool bNewHandbrakeState)
+{
+    m_bIsHandbreaking = bNewHandbrakeState;
+}
+
+void AACar::SetBump(bool bNewBumpState)
+{
+    m_bIsBumping = bNewBumpState;
+	//Implement Bump/Speed Logic
 }
 
 

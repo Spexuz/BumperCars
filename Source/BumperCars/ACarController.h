@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ACar.h"
 #include "InputActionValue.h"
-#include "GameFramework/Controller.h"
 #include "ACarController.generated.h"
 
 /**
@@ -28,6 +28,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* PossessedPawn) override;
+	virtual void OnUnPossess() override;
 	
 private:
 	//Variables
@@ -40,7 +42,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* m_pHandbrakeAction;
 
+	//Pawn Reference
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<AACar> m_pCurrentACar = nullptr;
+
 	//Controller Functions
 	void Move(const FInputActionValue& InputValues);
-	void Turn(const FInputActionValue& InputValues);
+	void Bump(const FInputActionValue& InputValues);
+	void Handbrake(const FInputActionValue& InputValues);
 };

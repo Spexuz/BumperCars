@@ -23,18 +23,38 @@ void AACarController::BeginPlay()
 	pPlayerSubsystem->AddMappingContext(m_pCarMappingContext, 0);
 }
 
+void AACarController::OnPossess(APawn* PossessedPawn)
+{
+	Super::OnPossess(PossessedPawn);
+	m_pCurrentACar = Cast<AACar>(PossessedPawn);
+}
+
+void AACarController::OnUnPossess()
+{
+	Super::OnUnPossess();
+	m_pCurrentACar = nullptr;
+}
+
+
 /**
  * Reads Controller Input and Casts to Controlled Pawn -> SetInput()
  * @param InputValues Enhanced Input Systems: FInputActionValue struct
  */
 void AACarController::Move(const FInputActionValue& InputValues)
 {
-	//Get Input Values
 	FVector2D vInput = InputValues.Get<FVector2D>();
-	//Find our Controlled Pawn
-	AACar* pCar = Cast<AACar>(GetPawn());
-	pCar->SetInput(vInput.Y, vInput.X);
-		
+	m_pCurrentACar->SetInput(vInput.Y, vInput.X);
+}
+
+void AACarController::Bump(const FInputActionValue& InputValues)
+{
+	bool ButtonStatus = InputValues.Get<bool>();
+	m_pCurrentACar->SetBump(ButtonStatus);
+}
+void AACarController::Handbrake(const FInputActionValue& InputValues)
+{
+	bool ButtonStatus = InputValues.Get<bool>();
+	m_pCurrentACar->SetHandbreak(ButtonStatus);
 }
 
 
@@ -45,6 +65,10 @@ void AACarController::SetupInputComponent()
 
 	pEnhancedInput->BindAction(m_pMoveAction, ETriggerEvent::Triggered, this, &AACarController::Move);
 	pEnhancedInput->BindAction(m_pMoveAction, ETriggerEvent::Completed, this, &AACarController::Move);
+	pEnhancedInput->BindAction(m_pBumpAction, ETriggerEvent::Triggered, this, &AACarController::Bump);
+	pEnhancedInput->BindAction(m_pBumpAction, ETriggerEvent::Completed, this, &AACarController::Bump);
+	pEnhancedInput->BindAction(m_pHandbrakeAction, ETriggerEvent::Triggered, this, &AACarController::Handbrake);
+	pEnhancedInput->BindAction(m_pHandbrakeAction, ETriggerEvent::Completed, this, &AACarController::Handbrake);
 	
 	
 }
