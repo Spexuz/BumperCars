@@ -18,9 +18,6 @@ AACarController::AACarController()
 void AACarController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UEnhancedInputLocalPlayerSubsystem* pPlayerSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	pPlayerSubsystem->AddMappingContext(m_pCarMappingContext, 0);
 }
 
 void AACarController::OnPossess(APawn* PossessedPawn)
@@ -61,7 +58,14 @@ void AACarController::Handbrake(const FInputActionValue& InputValues)
 void AACarController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
+	
 	UEnhancedInputComponent* pEnhancedInput = Cast<UEnhancedInputComponent>(InputComponent);
+	ULocalPlayer* pLocalPlayer = GetLocalPlayer(); //causes nullptr if not declared here for some reason, even though GetLocalPlayer() works in other functions without issue.
+	
+	UEnhancedInputLocalPlayerSubsystem* pPlayerSubsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	
+   	pPlayerSubsystem->AddMappingContext(m_pCarMappingContext, 0);
 
 	pEnhancedInput->BindAction(m_pMoveAction, ETriggerEvent::Triggered, this, &AACarController::Move);
 	pEnhancedInput->BindAction(m_pMoveAction, ETriggerEvent::Completed, this, &AACarController::Move);
