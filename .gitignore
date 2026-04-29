@@ -73,3 +73,14 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+BUmperBuild/Windows.zip
+BUmperBuild/Windows/Manifest_UFSFiles_Win64.txt
+BUmperBuild/Windows/Manifest_NonUFSFiles_Win64.txt
+BUmperBuild/Windows/Engine/Content/Slate/Cursor/invisible.cur
+BUmperBuild/Windows/Engine/Content/Renderer/TessellationTable.bin
+BUmperBuild/Windows/Engine/Config/StagedBuild_BumperCars.ini
+BUmperBuild/Windows/BumperCars/Content/Paks/global.utoc
+BUmperBuild/Windows/BumperCars/Content/Paks/global.ucas
+BUmperBuild/Windows/BumperCars/Content/Paks/BumperCars-Windows.utoc
+BUmperBuild/Windows/BumperCars/Content/Paks/BumperCars-Windows.ucas
+BUmperBuild/Windows/BumperCars/Content/Paks/BumperCars-Windows.pak

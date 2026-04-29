@@ -34,8 +34,12 @@ protected:
 	float m_fInput_XAxis = 0.0f;
 	UPROPERTY(BlueprintReadOnly, Category="Input")
 	bool m_bIsHandbreaking = false;
-	UPROPERTY(BlueprintReadOnly, Category="Input")
+	UPROPERTY(BlueprintReadOnly,  Category="Input")
     bool m_bIsBumping = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
+	USpringArmComponent* m_pSpringArm;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
+	UCameraComponent* m_pPlayerCamera;
 
 public:	
 	// Called every frame
@@ -50,11 +54,4 @@ private:
 	void PedalInput();
 	void WheelInput();
 	void SimulateSuspension();
-
-	//COMPONENTS
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	USpringArmComponent* m_pSpringArm;
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	UCameraComponent* m_pPlayerCamera;
-	
 };
